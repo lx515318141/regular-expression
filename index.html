@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>正则表达式初级</title>
+</head>
+<body>
+    <script>
+        // search 会返回检索字符串在指定字符串中首次出现的位置
+        // var str = 'hello World! goodbye world!'
+        // var index = str.search('world')
+        // var index = str.search(/world/i)
+        // console.log(index)
+
+        // replace 
+        // var str = 'hello world! goodbye world!'
+        // var newStr = str.replace('world','sxt')
+        // var newStr = str.replace(/world/gi,'sxt')
+        // console.log(newStr)
+
+        // match
+        var str = 'hello world! goodbye world!'
+        // var info = str.match('world')
+        var info = str.match(/world/gi)
+        console.log(info)
+    </script>
+</body>
+</html>

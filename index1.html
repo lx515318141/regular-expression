@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>正则表达式进阶_表达式模式</title>
+</head>
+<body>
+    <script>
+        // 检索模式
+        // [abc]
+        var str = '12abc12ABC'
+        var newStr = str.replace(/[ab]/gi,'(frank)')
+        console.log(newStr)
+
+        var str1 = '你好，弗兰克！ 再见，弗兰克！'
+        var newStr1 = str1.replace(/[弗兰克]/gi,'(frank)')
+        console.log(newStr1)
+
+        var str2 = '你好，弗兰克！ 再见，弗兰克！'
+        var newStr2 = str2.replace(/[弗][兰][克]/gi,'(frank)')
+        console.log(newStr2)
+
+        var str3 = '12abc12ABC'
+        var newStr3 = str3.replace(/[12][ab]/gi,'(sxt)')
+        console.log(newStr3)
+
+        // [0-9]
+        // var str4 = 'a123';
+        // var code = str4.charCodeAt(0)
+        // charCodeAt() 方法可返回指定位置的字符的 Unicode 编码。这个返回值是 0 - 65535 之间的整数。
+        // console.log(code);
+
+        var str4 = '12abc12ABC'
+        var newStr4 = str4.replace(/[0-9]/gi,'(frank)')
+        console.log(newStr4)
+
+        var str5 = '12abc12ABC'
+        var newStr5 = str5.replace(/[a-z]/gi,'(frank)')
+        console.log(newStr5)
+        
+        // 密码的首字母不能是字母
+        var password = 'a123456'
+        var firstChar = password.substring(0,1)
+        console.log(firstChar);
+        var index = firstChar.search(/[a-z]/i)
+        if(index === -1){
+            console.log('合法');
+        }else{
+            console.log('不合法');
+        }
+
+        // 判断密码中是否存在字母
+        // 不用正则的方法
+        // var pwd = '123abc456'
+        // for(var i=0;i<pwd.length;i++){
+        //     var unicode = pwd.charCodeAt(i)
+        //     if((unicode >= 65 && unicode <= 90) || (unicode >= 97 && unicode <= 122)){
+        //         flag = true
+        //         break
+        //     }
+        // }
+        // if(flag){
+        //     console.log('存在字母');
+        // }else{
+        //     console.log('不存在字母');
+        // }
+        
+        // 使用正则的方法
+        var pwd = '123abc456'
+        var index = pwd.search(/[a-z]/i)
+        if(index === -1){
+            console.log('不存在字母');
+        }else{
+            console.log('存在字母');
+            console.log(index);
+        }
+
+        var str6 = '12abc12ABC'
+        var newStr6 = str6.replace(/[a-zA-Z]/g,'(frank)')
+        console.log(newStr6)
+
+        var str7 = '12abc12ABC'
+        var newStr7 = str7.replace(/[a-zA-Z0-9]/g,'(frank)')
+        console.log(newStr7)
+
+        var str8 = '12abc12ABC'
+        var newStr8 = str8.replace(/[a-zA-Z][a-zA-Z][a-zA-Z]/g,'(frank)')
+        console.log(newStr8)
+        
+        var str9 = '12abc12ABC'
+        var newStr9 = str9.replace(/(ab|ABC)/g,'(frank)')
+        console.log(newStr9)
+
+        // 判断QQ邮箱是否符合规范
+        var eml = "515318141@qq.com"
+        var three = eml.substring(-7)
+        // substring(-7) 从倒数第七位取到最后一位
+        var index = three.search(/@qq.com/i)
+        if(index !== -1){
+            console.log('合法');
+        }else{
+            console.log('不合法');
+        }
+    </script>
+</body>
+</html>

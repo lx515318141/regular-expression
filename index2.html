@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>正则表达式进阶_元字符模式</title>
+</head>
+<body>
+    <script>
+        // 元字符模式
+        // \d
+        var str = '12abc12abABC'
+        var newStr = str.replace(/\d/g,'(frank)')
+        console.log(newStr)
+
+        var str1 = '12abc12abABC'
+        var newStr1 = str1.replace(/\d\d/g,'(frank)')
+        console.log(newStr1)
+
+        // \s
+        var str2 = ' 12abc 12ab ABC'
+        var newStr2 = str2.replace(/\s/g,'(frank)')
+        console.log(newStr2)
+
+        // \b
+        var str3 = '12abc 12ab ABC'
+        var newStr3 = str3.replace(/\b/g,'(frank)')
+        console.log(newStr3)
+
+        var str4 = '12abc 12ab ABC'
+        var newStr4 = str4.replace(/\b12ab\b/g,'(frank)')
+        console.log(newStr4)
+    </script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>正则表达式进阶_量词模式</title>
+</head>
+<body>
+    <script>
+        // 量词模式
+        // n+
+        var str = 'a1abb2ab3baab'
+        var newStr = str.match(/a/g)
+        console.log(newStr);//['a','a','a'，'a'，'a']
+
+        var str1 = 'a1abb2ab3baab'
+        var newStr1 = str1.match(/ab/g)
+        console.log(newStr1);//['ab','ab','ab']
+
+        var str2 = 'a1abb2ab3baab'
+        var newStr2 = str2.match(/a+/g)
+        console.log(newStr2);//['a','a','a'，'aa']
+
+        var str3 = 'a1abb2ab3baab'
+        var newStr3 = str3.match(/ab+/g)
+        console.log(newStr3);//['abb','ab','ab']
+
+        // n*
+        var str4 = 'a1abb2ab3baab'
+        var newStr4 = str4.match(/a*/g) 
+        console.log(newStr4);//["a", "", "a", "", "", "", "a", "", "", "", "aa", "", ""]
+
+        var str5 = 'a1abb2ab3baab'
+        var newStr5 = str5.match(/ab*/g) 
+        console.log(newStr5);//["a", "abb", "ab", "a", "ab"]
+
+        // n?
+        var str6 = 'a1abb2ab3baab'
+        var newStr6 = str6.match(/a?/g) 
+        console.log(newStr6);//["a", "", "a", "", "", "", "a", "", "", "", "a", "a", "", ""]
+
+        var str7 = 'a1abb2ab3baab'
+        var newStr7 = str7.match(/ab?/g) 
+        console.log(newStr7);//["a", "ab", "ab", "a", "ab"]
+    </script>
+</body>
+</html>
