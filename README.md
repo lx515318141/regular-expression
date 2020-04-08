@@ -222,20 +222,104 @@
         n*：在原字符串中检索任何[包含0个或多个n]的子字符串。
             例如：
                 var str4 = 'a1abb2ab3baab'
-                var newStr4 = str4.match(/a*/g) 
+                var newStr4 = str4.match(/a*/g)
                 console.log(newStr4);//["a", "", "a", "", "", "", "a", "", "", "", "aa", "", ""]
                 (最后的空字符串是多出来的，是因为懒得模式造成的)
 
                 var str5 = 'a1abb2ab3baab'
-                var newStr5 = str5.match(/ab*/g) 
+                var newStr5 = str5.match(/ab*/g)
                 console.log(newStr5);//["a", "abb", "ab", "a", "ab"]
             ps：为什么匹配单个字符的时候结果中有空字符串，而匹配多个字符构成的字符串时结果中就没有空字符串？
         n?：在原字符串中检索任何包含0个或1个n的子字符串。匹配时实际是，一满足就离开停止。
             例如：
                 var str6 = 'a1abb2ab3baab'
-                var newStr6 = str6.match(/a?/g) 
+                var newStr6 = str6.match(/a?/g)
                 console.log(newStr6);//["a", "", "a", "", "", "", "a", "", "", "", "a", "a", "", ""]
 
                 var str7 = 'a1abb2ab3baab'
-                var newStr7 = str7.match(/ab?/g) 
+                var newStr7 = str7.match(/ab?/g)
                 console.log(newStr7);//["a", "ab", "ab", "a", "ab"]
+
+## 2.3RegExp 对象
+
+        上面我们提到过正则表达式的基本语法是：/正则表达式主体/修饰符(可选)，这种创建正则的方法我们称之为[字面量创建正则表
+    达式]。
+        而实际上在js中已经为正则表达式提供了一个构造函数RegExp，我们可以通过这个构造函数来生成一个正则表达式的实例，而这种
+    创建正则的方法我们称之为[构造函数创建正则表达式]。
+        对于通过RegExp构造函数生成的正则实例来说，我们即能够和之前使用正则表达式一样将这个正则实例直接使用，还能够通过这个
+    实例来调用一些RegExp所独有的方法。
+    语法：
+        var regExp = new RegExp(正则表达式内容，修饰符)；
+        ps：通过构造函数方式创建正则，参数均采用字符串来声明。
+    例如：
+        var regExp = new RegExp('ab','g')
+        var str = '12abc12abABC'
+        var newStr = str.replace(regExp,'(frank)')
+        console.log(newStr)
+    代码执行结果：12(frank)c12(frank)ABC
+    在使用构造函数创建正则表达式的时候，在其中使用元字符时，注意\表示转译符，要正常使用元字符需要些两个\\。
+    例如：
+        var regExp1 = new RegExp('\\d[a-z]+','gi')
+        var str1 = '123abc12abABC'
+        var newStr1 = str1.replace(regExp1,'(frank)')
+        console.log(newStr1)
+    代码执行结果：12(frank)1(frank)
+    (1)RegExp对象的test()方法
+        本方法是RegExp对象中提供的一个方法，用来判断在[指定字符串中]是否存在[满足正则表达式规则]的子字符串。存在就返回true，反之返回false。
+        语法：
+            正则表达式.test(指定字符串)
+        例如：
+            var regExp = new RegExp('abcd','g')
+            console.log(regExp.test('12abc12abABC'));
+        代码执行结果为：false
+            var regExp2 = new RegExp('abc','g')
+            console.log(regExp2.test('12abc12abABC'));
+        代码执行结果为：true
+        注意：其实RegExp中提供的方法对于字面量创建还是函数创建正则表达式都是通用的，也就意味着下面的代码也是合法的：
+            console.log(/abc/g.text('12abc12abABC));    //true
+    (2)RegExp对象的exec()方法
+        本方法是RegExp对象中提供的一个方法，用来查找在[指定字符串中][第一个][满足正则表达式规则]的子字符串出现的[下标和内容。
+        本方法的返回值是一个信息集合(对象)，但是可以当做数组一样使用。若查找失败，则返回结果为null。
+        语法：
+            正则表达式.exec(指定字符串)
+        例如：
+            var regExp4 = new RegExp('abc','gi')
+            var result = regExp4.exec('12abc12abABC')
+            console.log(result)             // ["abc", index: 2, input: "12abc12abABC", groups: undefined]
+            console.log(result.length)      // 1
+            var result = regExp4.exec('12abc12abABC')
+            console.log(result)             // ["ABC", index: 9, input: "12abc12abABC", groups: undefined]
+            console.log(result.length)      //1
+            var result = regExp4.exec('12abc12abABC')
+            console.log(result)             // null
+        小括号()表示主匹配符合，若exec()匹配的正则中存在主匹配符号，会先匹配正则内容，然后在匹配一次主匹配内的内容，并且把两次的匹配结果放在一个集合中返回去。
+        例如：
+            var regExp5 = new RegExp('(ab)c','gi')
+            var result1 = regExp5.exec('12abc12abABC')
+            console.log(result1);           // ["abc", "ab", index: 2, input: "12abc12abABC", groups: undefined]
+            console.log(result1.length);    // 2
+            var result1 = regExp5.exec('12abc12abABC')
+            console.log(result1)            // ["ABC", "AB", index: 9, input: "12abc12abABC", groups: undefined]
+            console.log(result1.length);    // 2
+            var result1 = regExp5.exec('12abc12abABC')
+            console.log(result1)            // null
+        正则对象中实际存在一个隐式的参数lastIndex，本参数指代上一次匹配结束时的下标。正常情况exec()每一次匹配都是从上一次匹配到的字符或字符串的最后一个字符的下标的下一位开始匹配，例如上面第一次匹配到234位，则第二次匹配会从5开始，即已经匹配过的部分不会再次匹配，但是获取到下标都是相对于整个目标字符串的下标。但如果设置了lastIndex,则可以让此次匹配从任意位置开始。
+        例如：
+            var regExp6 = new RegExp('abc','gi')
+            var result2 = regExp6.exec('12abc12abABC')
+            console.log(result2)            // ["abc", index: 2, input: "12abc12abABC", groups: undefined]
+            console.log(result2.length)     // 1
+            // 修改上一次匹配结束是保存的下标，下一次匹配从整个索引开始
+            regExp6.lastIndex=0
+            var result2 = regExp6.exec('12abc12abABC')
+            console.log(result2)            // ["abc", index: 2, input: "12abc12abABC", groups: undefined]
+            console.log(result2.length);    // 1
+            var result2 = regExp6.exec('12abc12abABC')
+            console.log(result2)            // ["ABC", index: 9, input: "12abc12abABC", groups: undefined]
+            console.log(result2.length);    // 1
+            var result2 = regExp6.exec('12abc12abABC')
+            console.log(result2)            // null
+        此时第二次匹配的结果和第一次一样。
+        注意：a.需要注意的是，尽管我们能够像使用数组一样来使用exec()方法的返回结果，但那只是针对于查找的子字符串而言，对于子字符串出现的下标位置的访问仍需要按照属性访问来执行。即result.index或result['index]
+              b.exec方法返回的结果的length其实就是表示匹配了几次，一般情况下是1，即匹配了一次，当使用主匹配符合()时，则可以返回2。
+        

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RegExp_对象</title>
+</head>
+<body>
+    <script>
+        var regExp = new RegExp('ab','g')
+        var str = '12abc12abABC'
+        var newStr = str.replace(regExp,'(frank)')
+        console.log(newStr)
+
+        var regExp1 = new RegExp('\\d[a-z]+','gi')
+        var str1 = '123abc12abABC'
+        var newStr1 = str1.replace(regExp1,'(frank)')
+        console.log(newStr1)
+
+        // text()
+        var regExp2 = new RegExp('abcd','g')
+        console.log(regExp2.test('12abc12abABC'));
+        
+        var regExp3 = new RegExp('abc','g')
+        console.log(regExp3.test('12abc12abABC'));
+
+        // exec()
+        var regExp4 = new RegExp('abc','gi')
+        var result = regExp4.exec('12abc12abABC')
+        console.log(result)
+        console.log(result.length);
+        var result = regExp4.exec('12abc12abABC')
+        console.log(result)
+        console.log(result.length)
+        var result = regExp4.exec('12abc12abABC')
+        console.log(result)
+
+        // 使用主匹配符合
+        var regExp5 = new RegExp('(ab)c','gi')
+        var result1 = regExp5.exec('12abc12abABC')
+        console.log(result1)
+        console.log(result1.length);
+        var result1 = regExp5.exec('12abc12abABC')
+        console.log(result1)
+        console.log(result1.length);
+        var result1 = regExp5.exec('12abc12abABC')
+        console.log(result1)
+
+        // 使用lastIndex
+        var regExp6 = new RegExp('abc','gi')
+        var result2 = regExp6.exec('12abc12abABC')
+        console.log(result2)
+        console.log(result2.length);
+        // 修改上一次匹配结束是保存的下标，下一次匹配从整个索引开始
+        regExp6.lastIndex=0
+        var result2 = regExp6.exec('12abc12abABC')
+        console.log(result2)
+        console.log(result2.length);
+        var result2 = regExp6.exec('12abc12abABC')
+        console.log(result2)
+        console.log(result2.length);
+        var result2 = regExp6.exec('12abc12abABC')
+        console.log(result2)
+    </script>
+</body>
+</html>
