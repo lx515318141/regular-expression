@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>正则表达式高级</title>
+</head>
+<body>
+    <script>
+        // 正则表达式初末位字符
+        // 原始方法
+        var regExp = new RegExp('abc','gi')
+        var str = '12abc12abABC'
+        var result = regExp.exec(str)
+        console.log(result);
+        if(result.index === 0){
+            console.log('该字符串以abc开头')
+        }else{
+            console.log('该字符串不以abc开头');
+        }
+
+        // 使用末位字符方法
+        var regExp1 = new RegExp('^abc','gi')
+        if(regExp1.test(str)){
+            console.log('该字符串以abc开头')
+        }else{
+            console.log('该字符串不以abc开头');
+        }
+
+        var regExp2 = new RegExp('abc$','gi')
+        if(regExp2.test(str)){
+            console.log('该字符串以abc结尾')
+        }else{
+            console.log('该字符串不以abc结尾');
+        }
+
+        var str1 = 'abc'
+        var regExp3 = new RegExp('^abc$','gi')
+        if(regExp3.test(str1)){
+            console.log('是')
+        }else{
+            console.log('否');
+        }
+
+        // 重复类
+        var regExp4 = new RegExp('[a-z]{2}','g')
+        var string = '12abcabc12abccba'
+        console.log(string.match(regExp4));
+
+        // 判断手机号是否合法
+        var phoneNumber = '17244264967'
+        var reg = /^[1][3,4,5,7,8][0-9]{9}&/
+        if(reg.test(phoneNumber)){
+            console.log('合法手机号');
+        }else{
+            console.log('不合法');
+        }
+
+        // 普通正则
+        var str = 'a1abb2ab3baab'
+        var newStr = str.match(/[a-z]/g)
+        console.log(newStr)
+        
+        // 贪婪模式
+        var str = 'a1abb2ab3baab'
+        var newStr = str.match(/[a-z]*/g)
+        console.log(newStr)
+
+        // 懒惰模式
+        var str = 'a1abb2ab3baab'
+        var newStr = str.match(/[a-z]?/g)
+        console.log(newStr)
+
+        // 不出现空字符串
+        var str2 = 'a1abb2ab3baab'
+        var newStr1 = str.match(/a[a-z]*/g)
+        console.log(newStr1)
+
+        var regExp5 = new RegExp('t{2,3}','g')
+        var string1 = 'tttext'
+        var result1 = string1.match(regExp5)
+        console.log(result1);
+
+        // 贪婪模式
+        var regExp6 = /8[a-zA-Z0-9]*7/g
+        var string2 = 'abc8defghij7klngon8qrstwxy7'
+        var result2 = string2.match(regExp6)
+        console.log(result2)
+
+        // 懒惰模式
+        var regExp6 = /8[a-zA-Z0-9]*?7/g
+        var string2 = 'abc8defghij7klngon8qrstwxy7'
+        var result2 = string2.match(regExp6)
+        console.log(result2)
+    </script>
+</body>
+</html>

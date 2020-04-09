@@ -1,5 +1,7 @@
 # 正则表达式
 
+# 1.正则表达式基础
+
 ## 1.1 正则表达式概述
 
     正则表达式的概念：
@@ -292,7 +294,7 @@
             console.log(result.length)      //1
             var result = regExp4.exec('12abc12abABC')
             console.log(result)             // null
-        小括号()表示主匹配符合，若exec()匹配的正则中存在主匹配符号，会先匹配正则内容，然后在匹配一次主匹配内的内容，并且把两次的匹配结果放在一个集合中返回去。
+        小括号()表示组匹配符合，若exec()匹配的正则中存在组匹配符号，会先匹配正则内容，然后在匹配一次组匹配内的内容，并且把两次的匹配结果放在一个集合中返回去。
         例如：
             var regExp5 = new RegExp('(ab)c','gi')
             var result1 = regExp5.exec('12abc12abABC')
@@ -321,5 +323,141 @@
             console.log(result2)            // null
         此时第二次匹配的结果和第一次一样。
         注意：a.需要注意的是，尽管我们能够像使用数组一样来使用exec()方法的返回结果，但那只是针对于查找的子字符串而言，对于子字符串出现的下标位置的访问仍需要按照属性访问来执行。即result.index或result['index]
-              b.exec方法返回的结果的length其实就是表示匹配了几次，一般情况下是1，即匹配了一次，当使用主匹配符合()时，则可以返回2。
-        
+              b.exec方法返回的结果的length其实就是表示匹配了几次，一般情况下是1，即匹配了一次，当使用组匹配符合()时，则可以返回2。
+
+# 3.正则表达式高级
+
+## 3.1检索模式的^和$字符
+
+    此时正则表达式已经不再陌生，下面我们通过字符串方式来书写一个正则检索：
+        var regExp = new RegExp('abc','gi')
+        var str = '12abc12abABC'
+        var result = regExp.exec(str)
+        console.log(result);            // ["abc", index: 2, input: "12abc12abABC", groups: undefined]
+        if(result.index === 0){
+            console.log('该字符串以abc开头')
+        }else{
+            console.log('该字符串不以abc开头');
+        }
+    代码执行结果：该字符串不以abc开头
+    对于结果，["abc", index: 2, input: "12abc12abABC", groups: undefined]是最终控制台输出的内容，而判断结果为字符串不是以abc开头。
+    这样的逻辑虽然在我们已经可以使用的十分顺利了，能够处理大部分的情况。但是在实际情况中正则的上述处理方法就显得十分冗余，因为这种逻辑属于计算机的逻辑，对于人类而言其实还拥有一种更简单的逻辑：
+        初始判断， 最终输出
+    而人类为了弥补计算机中正则表达式对于人类思维的确实部分，提出了两个特殊字符来帮助正则实现更精确的表达，更贴近人类思维的判断。而这两个字符就是^和$位置符。
+        ^初位字符：表示判断字符串是否以某个内容开始
+        $末位字符：表示判断字符串是否以某个内容结束
+
+        var regExp1 = new RegExp('^abc','gi')   // 表示[判断是否以abc字符串开头]的正则
+        var regExp1 = new RegExp('abc$','gi')   // 表示[判断是否以abc字符串结尾]的正则
+
+        var str = '12abc12abABC'
+        var regExp1 = new RegExp('^abc','gi')
+        if(regExp1.test(str)){
+            console.log('该字符串以abc开头')
+        }else{
+            console.log('该字符串不以abc开头');
+        }
+    代码执行结果为：该字符串不以abc开头
+        var regExp2 = new RegExp('abc$','gi')
+        if(regExp2.test(str)){
+            console.log('该字符串以abc结尾')
+        }else{
+            console.log('该字符串不以abc结尾');
+        }
+    代码执行结果为：该字符串不以abc结尾
+    注意：若使用^和$包裹子字符串，即检索即以子字符串开头，又以子字符串结尾的目标字符串，只有子字符串本身才能匹配上。
+    例如：
+        var str1 = 'abc'
+        var regExp2 = new RegExp('^abc$','gi')
+        if(regExp2.test(str1)){
+            console.log('是')
+        }else{
+            console.log('否');
+        }
+    代码执行结果为：是(只有目标字符串为abc时，即与子字符串完全相同是才能匹配，其余都匹配不成功)
+## 3.2重复类
+    重复类其实是正则表达式中使用{}进行检索的一种模式的称谓，{}用来匹配符合正则要求的字符连续出现的此时。
+    其常见用法是配合表达式模式一起使用。重复类常见写法有以下三种：
+        subStr{n}:想要检索的内容恰好出现n次。
+        subStr{n,}:想要检索的内容至少出现n次。
+        subStr{n,m}:想要检索的内容至少出现n次，至多出现m次。
+    语法：
+        var regExp = new RegExp('正则表达式主体 重复类','修饰符')
+        var regExp = new RegExp('[a-z]{2}','g')
+        表示创建了一个[全局中检索连续出现两个小写字母]的正则
+    例如：
+        var regExp4 = new RegExp('[a-z]{2}','g')
+        var string = '12abcabc12abccba'
+        console.log(string.match(regExp4));     // ["ab", "ca", "bc", "ab", "cc", "ba"]
+    判断手机号是否合法
+        var phoneNumber = '17244264967'
+        var reg = /^[1][3,4,5,7,8][0-9]{9}&/
+        if(reg.test(phoneNumber)){
+            console.log('合法手机号');
+        }else{
+            console.log('不合法');
+        }
+    并且可以判断是否多余十一位数。
+    注意：重复类如果不存在组匹配符号()，那么重复类仅对其前面的第一个符号生效！
+
+        var regExp = new RegExp('abc{2},'g')    // 表示的是查找ab后面连续出现两个c的字符串，即查找abcc
+        var string = '12abcabc12abccab'
+        console.log(string.match(regExp))       // ['abcc']
+
+    因此，上述代码的输出结果是abcc而不是abcabc。那么如果想要查找连续两次出现的abc则需要在正则中添加组匹配符号()
+
+        var regExp = new RegExp('(abc){2},'g')    // 表示的是查找ab后面连续出现两个c的字符串，即查找abcc
+        var string = '12abcabc12abccab'
+        console.log(string.match(regExp))       // ['abcabc']
+## 3.3贪婪模式、懒惰模式
+    正则表达式--贪婪模式(greed)、懒惰模式(lazy)
+    其实对于正则来说，贪婪与懒惰两种模式都是被固化至表达式内的两种隐形的检测模式。他们并不归属于任何一种我们之前所说的检索模式，而是在此之外隐形生效的。
+    贪婪模式(greed)：
+        只要符合正则要求就一直向下匹配，直到无法再匹配为止的行为模式(例如n*)
+    懒惰模式(lazy)：
+        一旦匹配到符合正则要求的内容就立即结束的行为模式。(例如n?)
+    在正则中，不同的符号能够隐式说明当前的正则是采用贪婪模式还是懒惰模式。
+    常见符号有以下这些：
+        贪婪模式：+，*，{n,}，{n,m}
+        懒惰模式：+?，?，*?，{n}，{n,}?，{n,m}?
+    通过下面的例子可以看出贪婪模式和懒惰模式在正则中是如何发挥作用的：
+        // 普通正则
+        var str = 'a1abb2ab3baab'
+        var newStr = str.match(/[a-z]/g)
+        console.log(newStr)             // ["a", "a", "b", "b", "a", "b", "b", "a", "a", "b"]
+
+        // 贪婪模式
+        var str = 'a1abb2ab3baab'
+        var newStr = str.match(/[a-z]*/g)
+        console.log(newStr)             // ["a", "", "abb", "", "ab", "", "baab", ""]
+
+        // 懒惰模式
+        var str = 'a1abb2ab3baab'
+        var newStr = str.match(/[a-z]?/g)
+        console.log(newStr)             // ["a", "", "a", "b", "b", "", "a", "b", "", "b", "a", "a", "b", ""]
+    末尾多出的空字符串，在使用贪婪模式或懒惰模式时且子字符串为单个字符时才会出现，若子字符串为多个字符，则不会出现。
+    例如：
+        var str2 = 'a1abb2ab3baab'
+        var newStr1 = str.match(/a[a-z]*/g)
+        console.log(newStr1)        // ["a", "abb", "ab", "aab"]
+    所谓的贪婪模式无非就是令匹配结果尽可能的长，直到不满足为止。
+    而懒惰模式这是令匹配结果尽可能的短，匹配到就结束。
+    因此重复类中我们所遇到的问题，通过贪婪模式就有了合理的结束。
+        var regExp5 = new RegExp('t{2,3}','g')
+        var string1 = 'tttext'
+        var result1 = string1.match(regExp5)
+        console.log(result1);               // ["ttt"]
+    在第一句中我们通过重复类创建了一个正则，而重复类{2,3}声明了当前正则采用贪婪模式。因此在匹配的过程中会一直匹配到不能匹配为止，所以匹配最终的结果是ttt。
+
+    练习：
+        var regExp6 = /8[a-zA-Z0-9]*7/
+        var string2 = 'abc8defghij7klngon8qrstwxy7'
+        var result2 = string2.match(regExp6)
+        console.log(result2)
+        代码执行结果为：["8defghij7klngon8qrstwxy7"]
+
+        var regExp6 = /8[a-zA-Z0-9]*?7/
+        var string2 = 'abc8defghij7klngon8qrstwxy7'
+        var result2 = string2.match(regExp6)
+        console.log(result2)
+        代码执行结果为：["8defghij7", "8qrstwxy7"]
