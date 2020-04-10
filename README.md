@@ -461,3 +461,40 @@
         var result2 = string2.match(regExp6)
         console.log(result2)
         代码执行结果为：["8defghij7", "8qrstwxy7"]
+## 3.4正则脱字符
+    观察下面代码
+        var test = "<img width='200px;'/><img width='300px;'/><img width='400px;'/>"
+        var regExp7 = /<img\/>/gi
+        var result3 = text.match(regExp)
+        console.log(result3)            // null
+    通过分析我们能得到的结论就是，上述代码的作用是检索页面中出现的所有img标签。但是事实的执行结果却是null，这是为什么呢？
+    原因是：
+        因为我们的正则中检索的标准是<img/>，而在实际页面中img标签内不可能没有任何属性，或者说页面中[<img]字符串和[/>]字符串之间不可能没有其他字符，因此我们才会检索失败。
+        那么如果还是想要实现这个功能，就必须更换判断逻辑。不能再直接判断<img/>标签结构，而是要判断：
+            [以<img开头的，以/>结尾的，并且其当中只要没有>字符的]所有满足条件的字符串。
+        那么配合上面提到的贪婪模式，我们就有了如下的逻辑：
+            var regExp = /<img[不是>符号]*\/>/gi
+        这个判断条件似乎靠谱了许多，但是我们如何表达[不是>符号]的逻辑呢？
+        之前我们一直学习的是如何表示某个符号，而没学过如何表示不是某个符号，所有我们需要引入正则的一个新技术--脱字符来实现此功能。
+    脱字符是正则中^符号的一种特殊表达方式，表示[不是……]的意思。当且仅当^符号出现在中括号的首位时，我们称^符号为脱字符。
+    如果不写在中括号中则表示初位字符，如果写在中括号中却没写在首位，则表示普通字符。
+    例如：
+        var regExp8 = new RegExp('[^abc]','gi')
+        // 表示出现bc中的任意一个就不符合该正则
+        var string3 = '12abcabc12abcccab'
+        var result4 = string.match(regExp8)
+        console.log(result4);               // ["1", "2", "1", "2"]
+
+         var regExp9 = new RegExp('[^abc]{2}','gi')
+        // 表示连续两个出现的字符[不是abc中的任意一个]就符合该正则
+        var string4 = '12^abcabc12^abccab'
+        var result5 = string.match(regExp9)
+        console.log(result5);               // ["12", "12"]
+    下面我们再来重新看上面的检索img的正则，就可以用脱字符解决。
+        var test = "<img width='200px;'/><img width='300px;'/><img width='400px;'/>"
+        var regExp7 = /<img[^>]*\/>/gi
+        // 声明<img和/>之间的字符只有不是>就继续判断
+        var result3 = text.match(regExp)
+        console.log(result3)
+    代码执行结果为：["<img width='200px;'/>", "<img width='300px;'/>", "<img width='400px;'/>"]
+    ps：脱字符[^]可以匹配所有的字符。

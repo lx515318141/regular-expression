@@ -92,6 +92,41 @@
         var string2 = 'abc8defghij7klngon8qrstwxy7'
         var result2 = string2.match(regExp6)
         console.log(result2)
+
+        // 脱字符
+        var text = "<img width='200px;'/><img width='300px;'/><img width='400px;'/>"
+        var regExp7 = /<img\/>/gi
+        var result3 = text.match(regExp7)
+        console.log(result3)    // unll
+
+        var regExp8 = new RegExp('[^abc]','gi')
+        // 表示出现不是abc中的任意一个就符合该正则
+        var string3 = '12abcabc12abccab'
+        var result4 = string.match(regExp8)
+        console.log(result4);
+
+        var regExp9 = new RegExp('[^abc]{2}','gi')
+        // 表示连续两个出现的字符[不是abc中的任意一个]就符合该正则
+        var string4 = '12^abcabc12^abccab'
+        var result5 = string.match(regExp9)
+        console.log(result5);
+
+        // 使用脱字符解决img的问题
+        var test = "<img width='200px;'/><img width='300px;'/><img width='400px;'/>"
+        var regExp10 = /<img[^>]*\/>/gi
+        // 声明<img和/>之间的字符只有不是>就继续判断
+        var result6 = text.match(regExp10)
+        console.log(result6)
+
+        var string5 = '6213gsadjhsad68尚学堂'
+        var reg = /[^34ab]/gi
+        var result7 = string5.match(reg)
+        console.log(result7);   // ["6", "2", "1", "g", "s", "d", "j", "h", "s", "d", "6", "8", "尚", "学", "堂"]
+        
+        var reg1 = /[^34ab]+/gi
+        var result8 = string5.match(reg1)
+        console.log(result8);   // ["621", "gs", "djhs", "d68尚学堂"]
     </script>
+    
 </body>
 </html>
