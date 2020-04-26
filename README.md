@@ -15,10 +15,10 @@
 ## 1.2 正则表达式的基本语法
 
 语法：/正则表达式主体/修饰符(可选)  
-例如：var frk_reg = /beixi/i;  
+例如：var frk_reg = /lixiang/i;  
 其中  
-(1)/beixi/i是一个正则表达式  
-(2)beixi是这个正则表达式的主体，表示想要检索的内容是frank  
+(1)/lixiang/i是一个正则表达式  
+(2)lixiang是这个正则表达式的主体，表示想要检索的内容是lixiang  
 (3)i(ignore)是一个正则表达式的修饰符，表示检索内容时不区分大小写  
 (4)正则表达式本质上是一个对象类型，只是长得像字符串  
 
@@ -115,11 +115,11 @@ console.log(newStr)
 
 ## 2.2 检索模式
 
-正则表达式的检索模式，用于指定正则采用何种方式进行内容检索(即正则表达式的主体可以采用何种发生编写，也是规则的制定者之一)。  
+正则表达式的检索模式，用于指定正则采用何种方式进行内容检索(即正则表达式的主体可以采用何种方式编写，也是规则的制定者之一)。  
 常见的检索模式有：表达式模式、元字符模式和量词模式三种。  
 他们并不互相独立而是相辅相成的关系，就像修饰符可以多个一起使用一样。  
 注意：  
-a.检索模式中的几种模式可以混合使用，来达到精确指定规则的效果。  
+a.检索模式中的几种模式可以混合使用，来达到精确制定规则的效果。  
 b.在正则主体中一个[]代表一个字符，一个()代表一个词组。 
 
 ### (1)表达式模式
@@ -198,14 +198,14 @@ console.log(newStr)
 代码执行结果为：12(frank)12(frank)  
 注意：在表达式模式中，检索格式不能写成[9-0]，这种写法是违法的([from-to]from必须小于to)。  
 c.(m|n):在指定字符串中检索，查找任何满足(以|分割的选项之一)的字符或字符串。  
-例如：在str中替换所有(ab|ABC)的字符串为(frank)  
+例如：在str中替换所有(ab|ABC)的字符串为(frank)，即符合ab或ABC都算匹配。  
 ```
 var str = '12abc12ABC'
 var newStr = str.replace(/(ab|ABC)/g,'(frank)')
 console.log(newStr)
 ```
 代码执行结果为：12(frank)c12(frank)  
-注意：本模式不仅可以匹配字符，还可以匹配辞职。  
+注意：本模式不仅可以匹配字符，还可以匹配词组。  
 
 ### (2)元字符模式
 
@@ -240,7 +240,7 @@ var newStr = str.replace(/\s/g,'(frank)')
 console.log(newStr)
 ```
 代码执行结果为：(frank)12abc(frank)12ab(frank)ABC  
-\b：在指定字符串中检索，查找任何[是单词边界]规则的字符串后字符串(单词即指多个连续字符，单词边界是看不见的，就在单词的作用两侧)  
+\b：在指定字符串中检索，查找任何[是单词边界]规则的字符或字符串(单词即指多个连续字符，单词边界是看不见的，就在单词的作用两侧)  
 例如：在str中检索将单词边界替换为(frank)  
 ```
 var str = '12abc 12ab ABC'
@@ -255,7 +255,7 @@ var str = '12abc 12ab ABC'
 var newStr = str.replace(/\b12ab\b/g,'(frank)')
 console.log(newStr)
 ```  
-代码运行结果为：12abc (frank) ABC   (此时仅12ab这个单词背替换了，12abc中的12ab没变)  
+代码运行结果为：12abc (frank) ABC   (此时仅12ab这个单词被替换了，12abc中的12ab没变)  
 \w：在指定字符串中检索，查找任何[a-zA-Z0-9_]规则的字符或字符串。  
 
 ### (3)量词模式
@@ -263,9 +263,9 @@ console.log(newStr)
 量词：表示要检索的字符或字符串出现的次数的词组称为量词。  
 通过设置量词进行内容检索的模式称为量词模式。  
 如果用n表示要检索的字符或字符串，那么常见的量词模式有以下三种：  
-a)n+
-b)n*
-c)n?
+a)n+  
+b)n*  
+c)n?  
 注意：  
 a.量词通常不能单独存在于主体中，而是配合其他模式使用  
 b.n除了是具体的字符或字符串外，还可以是表达式或者元字符  
@@ -295,7 +295,7 @@ n*：在原字符串中检索任何[包含0个或多个n]的子字符串。
 var str4 = 'a1abb2ab3baab'
 var newStr4 = str4.match(/a*/g)
 console.log(newStr4);//["a", "", "a", "", "", "", "a", "", "", "", "aa", "", ""]
-(最后的空字符串是多出来的，是因为懒得模式造成的)
+(最后的空字符串是多出来的，是因为贪婪模式造成的)
 
 var str5 = 'a1abb2ab3baab'
 var newStr5 = str5.match(/ab*/g)
@@ -361,34 +361,34 @@ console.log(regExp2.test('12abc12abABC'));
 
 ### (2)RegExp对象的exec()方法
 
-本方法是RegExp对象中提供的一个方法，用来查找在[指定字符串中][第一个][满足正则表达式规则]的子字符串出现的[下标和内容。  
+本方法是RegExp对象中提供的一个方法，用来查找在[指定字符串中][第一个][满足正则表达式规则]的子字符串出现的[下标和内容]。  
 本方法的返回值是一个信息集合(对象)，但是可以当做数组一样使用。若查找失败，则返回结果为null。  
 语法：  
     正则表达式.exec(指定字符串)  
 例如：  
 ```
 var regExp4 = new RegExp('abc','gi')
-    var result = regExp4.exec('12abc12abABC')
-    console.log(result)             // ["abc", index: 2, input: "12abc12abABC", groups: undefined]
-    console.log(result.length)      // 1
-    var result = regExp4.exec('12abc12abABC')
-    console.log(result)             // ["ABC", index: 9, input: "12abc12abABC", groups: undefined]
-    console.log(result.length)      //1
-    var result = regExp4.exec('12abc12abABC')
-    console.log(result)             // null
+var result = regExp4.exec('12abc12abABC')
+console.log(result)             // ["abc", index: 2, input: "12abc12abABC", groups: undefined]
+console.log(result.length)      // 1
+var result = regExp4.exec('12abc12abABC')
+console.log(result)             // ["ABC", index: 9, input: "12abc12abABC", groups: undefined]
+console.log(result.length)      //1
+var result = regExp4.exec('12abc12abABC')
+console.log(result)             // null
 ```
 小括号()表示组匹配符合，若exec()匹配的正则中存在组匹配符号，会先匹配正则内容，然后在匹配一次组匹配内的内容，并且把两次的匹配结果放在一个集合中返回去。  
 例如：  
 ```
 var regExp5 = new RegExp('(ab)c','gi')
-    var result1 = regExp5.exec('12abc12abABC')
-    console.log(result1);           // ["abc", "ab", index: 2, input: "12abc12abABC", groups: undefined]
-    console.log(result1.length);    // 2
-    var result1 = regExp5.exec('12abc12abABC')
-    console.log(result1)            // ["ABC", "AB", index: 9, input: "12abc12abABC", groups: undefined]
-    console.log(result1.length);    // 2
-    var result1 = regExp5.exec('12abc12abABC')
-    console.log(result1)            // null
+var result1 = regExp5.exec('12abc12abABC')
+console.log(result1);           // ["abc", "ab", index: 2, input: "12abc12abABC", groups: undefined]
+console.log(result1.length);    // 2
+var result1 = regExp5.exec('12abc12abABC')
+console.log(result1)            // ["ABC", "AB", index: 9, input: "12abc12abABC", groups: undefined]
+console.log(result1.length);    // 2
+var result1 = regExp5.exec('12abc12abABC')
+console.log(result1)            // null
 ```
 正则对象中实际存在一个隐式的参数lastIndex，本参数指代上一次匹配结束时的下标。正常情况exec()每一次匹配都是从上一次匹配到的字符或字符串的最后一个字符的下标的下一位开始匹配，例如上面第一次匹配到234位，则第二次匹配会从5开始，即已经匹配过的部分不会再次匹配，但是获取到下标都是相对于整个目标字符串的下标。但如果设置了lastIndex,则可以让此次匹配从任意位置开始。  
 例如：  
@@ -410,7 +410,7 @@ console.log(result2)            // null
 ```
 此时第二次匹配的结果和第一次一样。  
 注意：  
-a.需要注意的是，尽管我们能够像使用数组一样来使用exec()方法的返回结果，但那只是针对于查找的子字符串而言，对于子字符串出现的下标位置的访问仍需要按照属性访问来执行。即result.index或result['index]  
+a.需要注意的是，尽管我们能够像使用数组一样来使用exec()方法的返回结果，但那只是针对于查找的子字符串而言，对于子字符串出现的下标位置的访问仍需要按照属性访问来执行。即result.index或result['index']  
 b.exec方法返回的结果的length其实就是表示匹配了几次，一般情况下是1，即匹配了一次，当使用组匹配符合()时，则可以返回2。  
 
 # 3.正则表达式高级
@@ -433,12 +433,12 @@ if(result.index === 0){
 对于结果，["abc", index: 2, input: "12abc12abABC", groups: undefined]是最终控制台输出的内容，而判断结果为字符串不是以abc开头。  
 这样的逻辑虽然在我们已经可以使用的十分顺利了，能够处理大部分的情况。但是在实际情况中正则的上述处理方法就显得十分冗余，因为这种逻辑属于计算机的逻辑，对于人类而言其实还拥有一种更简单的逻辑：  
     初始判断， 最终输出  
-而人类为了弥补计算机中正则表达式对于人类思维的确实部分，提出了两个特殊字符来帮助正则实现更精确的表达，更贴近人类思维的判断。而这两个字符就是^和$位置符。  
+而人类为了弥补计算机中正则表达式对于人类思维的缺失部分，提出了两个特殊字符来帮助正则实现更精确的表达，更贴近人类思维的判断。而这两个字符就是^和$位置符。  
 ^初位字符：表示判断字符串是否以某个内容开始  
 $末位字符：表示判断字符串是否以某个内容结束  
 ```
 var regExp1 = new RegExp('^abc','gi')   // 表示[判断是否以abc字符串开头]的正则
-var regExp1 = new RegExp('abc$','gi')   // 表示[判断是否以abc字符串结尾]的正则
+var regExp2 = new RegExp('abc$','gi')   // 表示[判断是否以abc字符串结尾]的正则
 
 var str = '12abc12abABC'
 var regExp1 = new RegExp('^abc','gi')
@@ -457,7 +457,7 @@ if(regExp2.test(str)){
     console.log('该字符串不以abc结尾');
 }
 ```
-代码执行结果为：该字符串不以abc结尾  
+代码执行结果为：该字符串以abc结尾  
 注意：若使用^和$包裹子字符串，即检索即以子字符串开头，又以子字符串结尾的目标字符串，只有子字符串本身才能匹配上。  
 例如：  
 ```
@@ -473,14 +473,16 @@ if(regExp2.test(str1)){
 
 ## 3.2重复类
 
-重复类其实是正则表达式中使用{}进行检索的一种模式的称谓，{}用来匹配符合正则要求的字符连续出现的此时。  
+重复类其实是正则表达式中使用{}进行检索的一种模式的称谓，{}用来匹配符合正则要求的字符连续出现的次数。  
 其常见用法是配合表达式模式一起使用。重复类常见写法有以下三种：  
 subStr{n}:想要检索的内容恰好出现n次。  
 subStr{n,}:想要检索的内容至少出现n次。  
 subStr{n,m}:想要检索的内容至少出现n次，至多出现m次。  
 语法：  
-`var regExp = new RegExp('正则表达式主体 重复类','修饰符')`
-`var regExp = new RegExp('[a-z]{2}','g')`
+```
+var regExp = new RegExp('正则表达式主体 重复类','修饰符')
+var regExp = new RegExp('[a-z]{2}','g')
+```
 表示创建了一个[全局中检索连续出现两个小写字母]的正则  
 例如：  
 ```
@@ -522,8 +524,8 @@ console.log(string.match(regExp))       // ['abcc']
     一旦匹配到符合正则要求的内容就立即结束的行为模式。(例如n?)  
 在正则中，不同的符号能够隐式说明当前的正则是采用贪婪模式还是懒惰模式。  
 常见符号有以下这些：  
-    贪婪模式：+，*，{n,}，{n,m}  
-    懒惰模式：+?，?，*?，{n}，{n,}?，{n,m}?  
+    贪婪模式：+，* ，{n,}，{n,m}  
+    懒惰模式：+?，?，* ?，{n}，{n,}?，{n,m}?  
 通过下面的例子可以看出贪婪模式和懒惰模式在正则中是如何发挥作用的：  
 ```
 // 普通正则
@@ -550,7 +552,7 @@ console.log(newStr1)        // ["a", "abb", "ab", "aab"]
 ```
 所谓的贪婪模式无非就是令匹配结果尽可能的长，直到不满足为止。  
 而懒惰模式这是令匹配结果尽可能的短，匹配到就结束。  
-因此重复类中我们所遇到的问题，通过贪婪模式就有了合理的结束。  
+因此重复类中我们所遇到的问题，通过贪婪模式就有了合理的解释。  
 ```
 var regExp5 = new RegExp('t{2,3}','g')
 var string1 = 'tttext'
@@ -585,7 +587,7 @@ console.log(result3)            // null
 ```
 通过分析我们能得到的结论就是，上述代码的作用是检索页面中出现的所有img标签。但是事实的执行结果却是null，这是为什么呢？  
 原因是：  
-因为我们的正则中检索的标准是<img/>，而在实际页面中img标签内不可能没有任何属性，或者说页面中[<img]字符串和[/>]字符串之间不可能没有其他字符，因此我们才会检索失败。  
+因为我们的正则中检索的标准是'<img/>'，而在实际页面中img标签内不可能没有任何属性，或者说页面中[<img]字符串和[/>]字符串之间不可能没有其他字符，因此我们才会检索失败。  
 那么如果还是想要实现这个功能，就必须更换判断逻辑。不能再直接判断<img/>标签结构，而是要判断：  
     [以<img开头的，以/>结尾的，并且其当中只要没有>字符的]所有满足条件的字符串。  
 那么配合上面提到的贪婪模式，我们就有了如下的逻辑：  
@@ -602,7 +604,7 @@ var string3 = '12abcabc12abcccab'
 var result4 = string.match(regExp8)
 console.log(result4);               // ["1", "2", "1", "2"]
 
-    var regExp9 = new RegExp('[^abc]{2}','gi')
+var regExp9 = new RegExp('[^abc]{2}','gi')
 // 表示连续两个出现的字符[不是abc中的任意一个]就符合该正则
 var string4 = '12^abcabc12^abccab'
 var result5 = string.match(regExp9)
