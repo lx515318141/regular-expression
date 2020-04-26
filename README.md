@@ -4,55 +4,55 @@
 
 ## 1.1 正则表达式概述
 
-    正则表达式的概念：
-        正则表达式(英文为regular Expression)是一种[字符串检索模式]
-        正则表达式具体表现为一个字符串的样子。
-    正则表达式实行原理是：
-        通过[参数字符串]设置检索规则，在[指定字符串]中检索符合规则的字符串。
-    正则表达式的作用是：
-        可以用来进行文本搜索和文本替换。
+正则表达式的概念：  
+    正则表达式(英文为regular Expression)是一种[字符串检索模式]  
+    正则表达式具体表现为一个字符串的样子。  
+正则表达式实行原理是：  
+    通过[参数字符串]设置检索规则，在[指定字符串]中检索符合规则的字符串。  
+正则表达式的作用是：  
+    可以用来进行文本搜索和文本替换。  
 
 ## 1.2 正则表达式的基本语法
 
-    语法：/正则表达式主体/修饰符(可选)
-    例如：var frk_reg = /beixi/i;
-    其中
-    (1)/beixi/i是一个正则表达式
-    (2)beixi是这个正则表达式的主体，表示想要检索的内容是frank
-    (3)i(ignore)是一个正则表达式的修饰符，表示检索内容时不区分大小写
-    (4)正则表达式本质上是一个对象类型，只是长得像字符串
+语法：/正则表达式主体/修饰符(可选)  
+例如：var frk_reg = /beixi/i;  
+其中  
+(1)/beixi/i是一个正则表达式  
+(2)beixi是这个正则表达式的主体，表示想要检索的内容是frank  
+(3)i(ignore)是一个正则表达式的修饰符，表示检索内容时不区分大小写  
+(4)正则表达式本质上是一个对象类型，只是长得像字符串  
 
 ## 1.3 正则表达式常见用法
 
-    正则表达式在实际开发中一般不会单独使用，而是会配合一些方法来完成某种功能。因为正则表达式的作用是对字符串进行操作，所有一般在实际开发中正则表达式会配合字符串的search和replace方法来使用。
-    (1)search方法：用于检索与正则表达式相匹配的字符串，并返回子字符串的起始位置。
-        例如：在指定字符串中，通过正则表达式搜索目标子字符串。并且不区分大小写。
-            var str = 'hello World! goodbye world!'
-            var index = str.search(/world/i)
-            console.log(index)
-        代码执行结果为：6。
-        注意:a.如果能找到，返回的是第一次出现的下标
-            b.如果找不到，返回-1
-    (2)replace方法：用于在指定字符串中用一个字符串代替一个与正则表达式相匹配的子字符串。
-        例如：在指定字符串中，通过正则表达式替换指定字符串中的目标字符串
-            var str = 'hello world! goodbye world!'
-            var newStr = str.replace(/world/gi,'sxt')
-            console.log(newStr)
-        代码执行结果为：hello sxt! goodbye sxt!
-        显然replace方法的作用是替换第一个匹配到的字符串，所以我们仅替换第一个符合规则的world。而这种功能是不能满足我们的，因为原本我们不使用正则replace方法就能实现这样的功能，那么能否有一种办法能够让我们一次性修改所有符合规则的world呢？
-        答案是肯定的，如在修饰符中使用加入g(global)表示全局，当没有g时只会替换第一个与正则表达式相匹配的子字符串，如果加上g会替换所有与正则表达式相匹配的子字符串
-        注意：a.replace方法本身不会改变原字符串，而是会生成新的字符串。
-    (2)match方法：能够匹配符合参数规则的字符串第一次出现的信息。
-        例如：在指定字符串中，通过正则表达式返回目标子字符串在指定字符串中第一次出现的信息(不加g时)
-            var str = 'hello world! goodbye world!'
-            var info = str.match(/world/i)
-            console.log(info)
-        代码执行结果为：["world", index: 6, input: "hello world! goodbye world!", groups: undefined]
-        当在修饰符中使用g，则可以匹配所有符合参数规则的子字符串，并构成数组返回
-            var str = 'hello world! goodbye world!'
-            var info = str.match(/world/Gi)
-            console.log(info)
-        代码执行结果为：["world", "world"]
+正则表达式在实际开发中一般不会单独使用，而是会配合一些方法来完成某种功能。因为正则表达式的作用是对字符串进行操作，所有一般在实际开发中正则表达式会配合字符串的search和replace方法来使用。  
+(1)search方法：用于检索与正则表达式相匹配的字符串，并返回子字符串的起始位置。  
+    例如：在指定字符串中，通过正则表达式搜索目标子字符串。并且不区分大小写。
+        var str = 'hello World! goodbye world!'
+        var index = str.search(/world/i)
+        console.log(index)
+    代码执行结果为：6。
+    注意:a.如果能找到，返回的是第一次出现的下标
+        b.如果找不到，返回-1
+(2)replace方法：用于在指定字符串中用一个字符串代替一个与正则表达式相匹配的子字符串。
+    例如：在指定字符串中，通过正则表达式替换指定字符串中的目标字符串
+        var str = 'hello world! goodbye world!'
+        var newStr = str.replace(/world/gi,'sxt')
+        console.log(newStr)
+    代码执行结果为：hello sxt! goodbye sxt!
+    显然replace方法的作用是替换第一个匹配到的字符串，所以我们仅替换第一个符合规则的world。而这种功能是不能满足我们的，因为原本我们不使用正则replace方法就能实现这样的功能，那么能否有一种办法能够让我们一次性修改所有符合规则的world呢？
+    答案是肯定的，如在修饰符中使用加入g(global)表示全局，当没有g时只会替换第一个与正则表达式相匹配的子字符串，如果加上g会替换所有与正则表达式相匹配的子字符串
+    注意：a.replace方法本身不会改变原字符串，而是会生成新的字符串。
+(2)match方法：能够匹配符合参数规则的字符串第一次出现的信息。
+    例如：在指定字符串中，通过正则表达式返回目标子字符串在指定字符串中第一次出现的信息(不加g时)
+        var str = 'hello world! goodbye world!'
+        var info = str.match(/world/i)
+        console.log(info)
+    代码执行结果为：["world", index: 6, input: "hello world! goodbye world!", groups: undefined]
+    当在修饰符中使用g，则可以匹配所有符合参数规则的子字符串，并构成数组返回
+        var str = 'hello world! goodbye world!'
+        var info = str.match(/world/Gi)
+        console.log(info)
+    代码执行结果为：["world", "world"]
 
 # 2.正则表达式进阶
 
